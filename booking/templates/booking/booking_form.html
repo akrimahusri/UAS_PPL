@@ -6,6 +6,7 @@
 <section class="section">
     <div class="container narrow">
         <h1>Form Booking</h1>
+        <p class="muted">Booking akan ditautkan ke akun yang sedang login.</p>
         <form method="post" class="form">
             {% csrf_token %}
             {{ form.non_field_errors }}

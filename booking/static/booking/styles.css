@@ -129,6 +129,25 @@ body {
     box-shadow: 0 15px 35px var(--shadow);
 }
 
+.court-image {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    display: block;
+    background: #eef2f7;
+}
+
+.court-image-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--muted);
+    font-weight: 600;
+    border: 1px dashed #cbd5e1;
+}
+
 .feature-grid {
     display: grid;
     gap: 1.5rem;
@@ -187,6 +206,12 @@ body {
     border-radius: 10px;
     border: 1px solid #d0d7de;
     font-size: 1rem;
+}
+
+.form input[type="password"],
+.form input[type="text"],
+.form input[type="email"] {
+    width: 100%;
 }
 
 .meta {

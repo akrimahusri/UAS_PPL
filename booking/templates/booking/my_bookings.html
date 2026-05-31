@@ -1,0 +1,28 @@
+{% extends 'booking/base.html' %}
+
+{% block title %}MyCourt | Riwayat Pemesanan Saya{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container">
+        <h1>Riwayat Pemesanan Saya</h1>
+        {% if bookings %}
+            <div class="card-grid">
+                {% for booking in bookings %}
+                    <div class="card">
+                        <h3>{{ booking.court.name }}</h3>
+                        <p>{{ booking.full_name }}</p>
+                        <p class="muted">{{ booking.date }} | {{ booking.start_time }} - {{ booking.end_time }}</p>
+                        <div class="meta">
+                            <span>Status: {{ booking.get_status_display }}</span>
+                            <span>Lapangan: {{ booking.court.location }}</span>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>Belum ada booking yang dibuat dari akun ini.</p>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

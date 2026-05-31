@@ -1,0 +1,30 @@
+{% extends 'booking/base.html' %}
+
+{% block title %}MyCourt | Daftar{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container narrow">
+        <h1>Daftar Akun</h1>
+        <form method="post" class="form">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            <div class="form-grid">
+                <label>
+                    Username
+                    {{ form.username }}
+                </label>
+                <label>
+                    Password
+                    {{ form.password1 }}
+                </label>
+                <label>
+                    Konfirmasi Password
+                    {{ form.password2 }}
+                </label>
+            </div>
+            <button class="btn primary" type="submit">Daftar</button>
+        </form>
+    </div>
+</section>
+{% endblock %}

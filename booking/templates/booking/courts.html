@@ -10,6 +10,11 @@
             <div class="card-grid">
                 {% for court in courts %}
                     <div class="card">
+                        {% if court.image %}
+                            <img class="court-image" src="{{ court.image.url }}" alt="{{ court.name }}">
+                        {% else %}
+                            <div class="court-image court-image-placeholder">Belum ada gambar</div>
+                        {% endif %}
                         <h3>{{ court.name }}</h3>
                         <p class="muted">{{ court.location }}</p>
                         <p>{{ court.description|default:"Deskripsi belum tersedia." }}</p>

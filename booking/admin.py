@@ -12,6 +12,6 @@ class CourtAdmin(admin.ModelAdmin):
 
 @admin.register(Booking)
 class BookingAdmin(admin.ModelAdmin):
-    list_display = ("full_name", "court", "date", "start_time", "end_time", "status")
+    list_display = ("full_name", "user", "court", "date", "start_time", "end_time", "status")
     list_filter = ("status", "date", "court")
-    search_fields = ("full_name", "email", "phone")
+    search_fields = ("full_name", "email", "phone", "user__username")

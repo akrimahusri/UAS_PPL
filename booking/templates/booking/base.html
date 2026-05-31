@@ -14,7 +14,14 @@
             <nav class="nav">
                 <a href="{% url 'booking:landing' %}">Beranda</a>
                 <a href="{% url 'booking:courts' %}">Lapangan</a>
-                <a href="{% url 'booking:create' %}">Booking</a>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'booking:create' %}">Booking</a>
+                    <a href="{% url 'booking:my_bookings' %}">Riwayat Pemesanan Saya</a>
+                    <a href="{% url 'booking:logout' %}">Keluar</a>
+                {% else %}
+                    <a href="{% url 'booking:login' %}">Masuk</a>
+                    <a href="{% url 'booking:register' %}">Daftar</a>
+                {% endif %}
                 <a href="{% url 'booking:about' %}">Tentang</a>
                 <a href="/admin/">Admin</a>
             </nav>

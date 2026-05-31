@@ -1,0 +1,26 @@
+{% extends 'booking/base.html' %}
+
+{% block title %}MyCourt | Masuk{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container narrow">
+        <h1>Masuk</h1>
+        <form method="post" class="form">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            <div class="form-grid">
+                <label>
+                    Username
+                    {{ form.username }}
+                </label>
+                <label>
+                    Password
+                    {{ form.password }}
+                </label>
+            </div>
+            <button class="btn primary" type="submit">Masuk</button>
+        </form>
+    </div>
+</section>
+{% endblock %}
