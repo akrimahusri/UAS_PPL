@@ -28,7 +28,7 @@ MyCourt adalah aplikasi booking lapangan badminton dengan halaman publik dan das
    ```
 5. Jalankan server:
    ```bash
-            
+   python manage.py runserver
    ```
 
 ## Akses Aplikasi
@@ -38,5 +38,14 @@ MyCourt adalah aplikasi booking lapangan badminton dengan halaman publik dan das
 
 ## Catatan
 
-- Tambahkan data lapangan terlebih dulu lewat admin agar daftar lapangan tampil.
-- CRUD data dilakukan melalui Django Admin.
+- Halaman publik: `http://127.0.0.1:8000/` (landing, daftar lapangan, booking)
+- Dashboard in-app untuk pengelola (admin) tersedia di `http://127.0.0.1:8000/dashboard/admin/` — gunakan menu *Kelola Lapangan* dan *Booking* untuk manajemen.
+- Halaman pengelolaan akun admin baru: `http://127.0.0.1:8000/dashboard/admin/users/` (promote/demote admin, aktif/non-aktif, hapus - dengan proteksi).
+- Halaman profil pengguna: `http://127.0.0.1:8000/dashboard/profile/` (lihat ringkasan akun dan booking terbaru).
+- Beberapa file override admin tema telah dihapus (project/app `templates/admin/base_site.html` dan `booking/static/booking/admin-theme.css`) karena pengelolaan kini tersedia dalam aplikasi.
+- Untuk mengarahkan langsung ke section "Tentang" pada landing page dari tempat lain, gunakan anchor: `"{% url 'booking:landing' %}#about"`.
+
+## Media & Static
+
+- Jika menambahkan gambar lapangan, simpan di `media/` dan pastikan `MEDIA_URL`/`MEDIA_ROOT` dikonfigurasi di `MyCourt/settings.py`.
+- Untuk development, Django akan melayani `MEDIA_URL` ketika `DEBUG=True`.
