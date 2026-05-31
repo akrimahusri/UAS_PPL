@@ -1,0 +1,50 @@
+{% extends 'booking/base.html' %}
+
+{% block title %}MyCourt | Booking{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container narrow">
+        <h1>Form Booking</h1>
+        <form method="post" class="form">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            <div class="form-grid">
+                <label>
+                    Lapangan
+                    {{ form.court }}
+                </label>
+                <label>
+                    Nama Lengkap
+                    {{ form.full_name }}
+                </label>
+                <label>
+                    Email
+                    {{ form.email }}
+                </label>
+                <label>
+                    Telepon
+                    {{ form.phone }}
+                </label>
+                <label>
+                    Tanggal
+                    {{ form.date }}
+                </label>
+                <label>
+                    Jam Mulai
+                    {{ form.start_time }}
+                </label>
+                <label>
+                    Jam Selesai
+                    {{ form.end_time }}
+                </label>
+                <label>
+                    Catatan
+                    {{ form.notes }}
+                </label>
+            </div>
+            <button class="btn primary" type="submit">Kirim Booking</button>
+        </form>
+    </div>
+</section>
+{% endblock %}

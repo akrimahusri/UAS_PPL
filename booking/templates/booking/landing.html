@@ -1,0 +1,49 @@
+{% extends 'booking/base.html' %}
+
+{% block title %}MyCourt | Beranda{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="container hero-inner">
+        <div>
+            <h1>Booking lapangan badminton jadi lebih mudah.</h1>
+            <p>Pesan jadwal main favoritmu secara cepat dan praktis tanpa antre.</p>
+            <div class="hero-actions">
+                <a class="btn primary" href="{% url 'booking:create' %}">Booking Sekarang</a>
+                <a class="btn ghost" href="{% url 'booking:courts' %}">Lihat Lapangan</a>
+            </div>
+        </div>
+        <div class="hero-card">
+            <h3>Statistik Singkat</h3>
+            <div class="stat-grid">
+                <div class="stat">
+                    <div class="stat-value">{{ court_count }}</div>
+                    <div class="stat-label">Lapangan Aktif</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">{{ booking_count }}</div>
+                    <div class="stat-label">Total Booking</div>
+                </div>
+            </div>
+            <p class="hint">Kelola data booking lewat dashboard admin.</p>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container feature-grid">
+        <div class="feature">
+            <h3>Jadwal Fleksibel</h3>
+            <p>Pilih jam bermain sesuai kebutuhan dengan informasi lapangan yang jelas.</p>
+        </div>
+        <div class="feature">
+            <h3>Harga Transparan</h3>
+            <p>Setiap lapangan menampilkan harga per jam agar mudah dibandingkan.</p>
+        </div>
+        <div class="feature">
+            <h3>Konfirmasi Cepat</h3>
+            <p>Admin dapat mengelola status booking dari dashboard dengan mudah.</p>
+        </div>
+    </div>
+</section>
+{% endblock %}

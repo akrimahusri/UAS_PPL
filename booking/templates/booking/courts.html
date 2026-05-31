@@ -1,0 +1,29 @@
+{% extends 'booking/base.html' %}
+
+{% block title %}MyCourt | Lapangan{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container">
+        <h1>Daftar Lapangan</h1>
+        {% if courts %}
+            <div class="card-grid">
+                {% for court in courts %}
+                    <div class="card">
+                        <h3>{{ court.name }}</h3>
+                        <p class="muted">{{ court.location }}</p>
+                        <p>{{ court.description|default:"Deskripsi belum tersedia." }}</p>
+                        <div class="meta">
+                            <span>Harga: Rp {{ court.price_per_hour }} / jam</span>
+                            <span>Jam: {{ court.open_time }} - {{ court.close_time }}</span>
+                        </div>
+                        <a class="btn primary" href="{% url 'booking:create' %}">Booking</a>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>Belum ada lapangan yang tersedia.</p>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

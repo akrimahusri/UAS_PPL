@@ -1,0 +1,21 @@
+{% extends 'booking/base.html' %}
+
+{% block title %}MyCourt | Sukses{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container narrow">
+        <div class="card">
+            <h1>Booking Terkirim</h1>
+            <p>Terima kasih, {{ booking.full_name }}. Booking kamu sudah tercatat.</p>
+            <div class="meta">
+                <span>Lapangan: {{ booking.court.name }}</span>
+                <span>Tanggal: {{ booking.date }}</span>
+                <span>Jam: {{ booking.start_time }} - {{ booking.end_time }}</span>
+                <span>Status: {{ booking.get_status_display }}</span>
+            </div>
+            <a class="btn ghost" href="{% url 'booking:landing' %}">Kembali ke Beranda</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

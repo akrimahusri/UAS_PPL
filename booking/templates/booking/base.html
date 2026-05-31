@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}MyCourt{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'booking/styles.css' %}">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container header-inner">
+            <div class="brand">MyCourt</div>
+            <nav class="nav">
+                <a href="{% url 'booking:landing' %}">Beranda</a>
+                <a href="{% url 'booking:courts' %}">Lapangan</a>
+                <a href="{% url 'booking:create' %}">Booking</a>
+                <a href="{% url 'booking:about' %}">Tentang</a>
+                <a href="/admin/">Admin</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="site-main">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <p>MyCourt &copy; 2026. Sistem booking lapangan badminton.</p>
+        </div>
+    </footer>
+</body>
+</html>
