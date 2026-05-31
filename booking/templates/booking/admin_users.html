@@ -1,0 +1,47 @@
+{% extends "booking/dashboard_shell.html" %}
+
+{% block dashboard_heading %}Kelola Akun{% endblock %}
+{% block dashboard_lead %}Daftar pengguna terdaftar dan kontrol status/peran{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="dashboard-card">
+        <h3>Pengguna Terdaftar ({{ user_count }})</h3>
+        <table style="width:100%; border-collapse: collapse; margin-top: 1rem;">
+            <thead>
+                <tr style="text-align:left; border-bottom:1px solid rgba(12,59,46,0.08)">
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Staff</th>
+                    <th>Aktif</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for u in users %}
+                <tr style="border-bottom:1px solid rgba(12,59,46,0.04);">
+                    <td>{{ u.username }}</td>
+                    <td>{{ u.email }}</td>
+                    <td>{{ u.is_staff|yesno:"Ya,Tidak" }}</td>
+                    <td>{{ u.is_active|yesno:"Ya,Tidak" }}</td>
+                    <td>
+                        <form method="post" action="{% url 'booking:admin_toggle_user' u.id %}" style="display:inline">
+                            {% csrf_token %}
+                            <button class="btn" type="submit">{% if u.is_active %}Nonaktifkan{% else %}Aktifkan{% endif %}</button>
+                        </form>
+                        <form method="post" action="{% url 'booking:admin_toggle_staff' u.id %}" style="display:inline; margin-left:0.5rem;">
+                            {% csrf_token %}
+                            <button class="btn ghost" type="submit">{% if u.is_staff %}Cabut Admin{% else %}Jadikan Admin{% endif %}</button>
+                        </form>
+                        <form method="post" action="{% url 'booking:admin_delete_user' u.id %}" style="display:inline; margin-left:0.5rem;">
+                            {% csrf_token %}
+                            <button class="btn danger" type="submit" onclick="return confirm('Hapus akun {{ u.username }}? Tindakan ini tidak dapat dibatalkan.')">Hapus</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

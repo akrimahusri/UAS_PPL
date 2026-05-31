@@ -1,0 +1,80 @@
+{% extends 'booking/admin_dashboard_base.html' %}
+
+{% block title %}MyCourt | Kelola Lapangan{% endblock %}
+{% block dashboard_section %}courts_manage{% endblock %}
+
+{% block dashboard_eyebrow %}Lapangan{% endblock %}
+{% block dashboard_heading %}Kelola Lapangan{% endblock %}
+{% block dashboard_lead %}Tambah, ubah, dan nonaktifkan lapangan melalui satu dashboard yang konsisten dengan halaman admin lainnya.{% endblock %}
+{% block dashboard_top_actions %}
+    <a class="btn ghost" href="{% url 'booking:admin_dashboard' %}">Dashboard Admin</a>
+    <a class="btn primary" href="{% url 'booking:admin_bookings' %}">Kelola Booking</a>
+{% endblock %}
+
+{% block admin_summary %}
+    <div class="admin-management-metrics">
+        <div class="stat"><div class="stat-value">{{ court_count }}</div><div class="stat-label">Total Lapangan</div></div>
+        <div class="stat"><div class="stat-value">{{ active_court_count }}</div><div class="stat-label">Aktif</div></div>
+        <div class="stat"><div class="stat-value">{{ inactive_court_count }}</div><div class="stat-label">Nonaktif</div></div>
+        <div class="stat"><div class="stat-value">MyCourt</div><div class="stat-label">Tema</div></div>
+    </div>
+{% endblock %}
+
+{% block admin_body %}
+    <div class="admin-court-layout">
+        <div class="admin-booking-card">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">Tambah Lapangan</p>
+                    <h2>Form Lapangan Baru</h2>
+                </div>
+            </div>
+            <form method="post" action="{% url 'booking:admin_create_court' %}" enctype="multipart/form-data" class="admin-booking-form admin-court-form">
+                {% csrf_token %}
+                <div class="admin-court-grid">
+                    <label>Nama {{ court_form.name }}</label>
+                    <label>Lokasi {{ court_form.location }}</label>
+                    <label>Harga per Jam {{ court_form.price_per_hour }}</label>
+                    <label>Gambar {{ court_form.image }}</label>
+                    <label>Deskripsi {{ court_form.description }}</label>
+                    <label>Jam Buka {{ court_form.open_time }}</label>
+                    <label>Jam Tutup {{ court_form.close_time }}</label>
+                    <label class="admin-court-switch">{{ court_form.is_active }} <span>Aktif</span></label>
+                </div>
+                <button class="btn primary" type="submit">Simpan Lapangan</button>
+            </form>
+        </div>
+
+        {% if courts %}
+            <div class="admin-booking-grid admin-booking-list">
+                {% for court in courts %}
+                    <article class="admin-booking-card">
+                        <div class="admin-booking-top">
+                            <div>
+                                <p class="eyebrow">Lapangan</p>
+                                <h2>{{ court.name }}</h2>
+                                <p class="muted">{{ court.location }}</p>
+                            </div>
+                            <span class="dashboard-pill">{% if court.is_active %}Aktif{% else %}Nonaktif{% endif %}</span>
+                        </div>
+                        <div class="admin-booking-meta">
+                            <div><span class="admin-booking-label">Harga</span><strong>Rp {{ court.price_per_hour }} / jam</strong></div>
+                            <div><span class="admin-booking-label">Jam</span><strong>{{ court.open_time }} - {{ court.close_time }}</strong></div>
+                            <div><span class="admin-booking-label">Deskripsi</span><strong>{{ court.description|default:"-" }}</strong></div>
+                            <div><span class="admin-booking-label">Gambar</span><strong>{% if court.image %}Ada{% else %}Belum ada{% endif %}</strong></div>
+                        </div>
+                        <div class="hero-actions admin-court-actions">
+                            <a class="btn ghost" href="{% url 'booking:admin_edit_court' court.id %}">Ubah Lapangan</a>
+                            <form method="post" action="{% url 'booking:admin_toggle_court' court.id %}">
+                                {% csrf_token %}
+                                <button class="btn primary" type="submit">{% if court.is_active %}Nonaktifkan{% else %}Aktifkan{% endif %}</button>
+                            </form>
+                        </div>
+                    </article>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="empty-state"><p>Belum ada lapangan untuk dikelola.</p></div>
+        {% endif %}
+    </div>
+{% endblock %}

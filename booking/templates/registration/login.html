@@ -1,26 +1,57 @@
-{% extends 'booking/base.html' %}
+{% extends 'registration/auth_base.html' %}
 
 {% block title %}MyCourt | Masuk{% endblock %}
 
 {% block content %}
-<section class="section">
-    <div class="container narrow">
-        <h1>Masuk</h1>
-        <form method="post" class="form">
-            {% csrf_token %}
-            {{ form.non_field_errors }}
-            <div class="form-grid">
-                <label>
-                    Username
-                    {{ form.username }}
-                </label>
-                <label>
-                    Password
-                    {{ form.password }}
-                </label>
+<section class="auth-page">
+    <div class="container auth-shell">
+        <div class="auth-visual auth-visual-login">
+            <div class="auth-visual-copy">
+                <p class="auth-badge">MyCourt</p>
+                <h1>Selamat Datang Kembali</h1>
+                <p>Masuk untuk membuat booking, melihat riwayat, dan membatalkan pesanan dari akunmu sendiri.</p>
             </div>
-            <button class="btn primary" type="submit">Masuk</button>
-        </form>
+        </div>
+
+        <div class="auth-panel">
+            <div class="auth-card">
+                <p class="eyebrow">Hey, hello 👋</p>
+                <h2>Masuk ke akun</h2>
+                <p class="auth-copy">Gunakan username dan password yang sudah terdaftar, lalu pilih role aksesmu.</p>
+
+                <form method="post" class="form auth-form">
+                    {% csrf_token %}
+                    {{ form.non_field_errors }}
+                    <div class="form-grid">
+                        <label>
+                            Username
+                            {{ form.username }}
+                            {{ form.username.errors }}
+                        </label>
+                        <label>
+                            Password
+                            {{ form.password }}
+                            {{ form.password.errors }}
+                        </label>
+                        <label>
+                            Role
+                            {{ form.role }}
+                            {{ form.role.errors }}
+                        </label>
+                    </div>
+
+                    <div class="auth-row">
+                        <label class="auth-remember">
+                            {{ form.remember_me }}
+                            <span>{{ form.remember_me.label }}</span>
+                        </label>
+                        <a class="auth-link" href="{% url 'booking:register' %}">Buat akun</a>
+                    </div>
+
+                    <button class="btn primary auth-submit" type="submit">Masuk</button>
+                </form>
+            </div>
+        </div>
     </div>
 </section>
 {% endblock %}

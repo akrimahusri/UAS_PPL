@@ -1,31 +1,48 @@
-{% extends 'booking/base.html' %}
+{% extends 'booking/dashboard_shell.html' %}
 
 {% block title %}MyCourt | Lapangan{% endblock %}
 
+{% block dashboard_section %}courts{% endblock %}
+{% block dashboard_eyebrow %}Lapangan{% endblock %}
+{% block dashboard_heading %}Daftar Lapangan{% endblock %}
+{% block dashboard_lead %}Lihat fasilitas, harga, dan jam operasional lapangan sebelum booking.{% endblock %}
+{% block dashboard_top_actions %}
+    {% if user.is_authenticated and not user.is_staff and not user.is_superuser %}
+        <a class="btn primary" href="{% url 'booking:create' %}">Booking Sekarang</a>
+    {% elif user.is_staff or user.is_superuser %}
+        <a class="btn primary" href="{% url 'booking:admin_courts' %}">Kelola Lapangan</a>
+    {% else %}
+        <a class="btn primary" href="{% url 'booking:login' %}">Login untuk Booking</a>
+    {% endif %}
+{% endblock %}
+
 {% block content %}
-<section class="section">
-    <div class="container">
-        <h1>Daftar Lapangan</h1>
+<section class="dashboard-page courts-page">
+    <div class="card-grid courts-grid">
         {% if courts %}
-            <div class="card-grid">
-                {% for court in courts %}
-                    <div class="card">
-                        {% if court.image %}
-                            <img class="court-image" src="{{ court.image.url }}" alt="{{ court.name }}">
-                        {% else %}
-                            <div class="court-image court-image-placeholder">Belum ada gambar</div>
-                        {% endif %}
-                        <h3>{{ court.name }}</h3>
-                        <p class="muted">{{ court.location }}</p>
-                        <p>{{ court.description|default:"Deskripsi belum tersedia." }}</p>
-                        <div class="meta">
-                            <span>Harga: Rp {{ court.price_per_hour }} / jam</span>
-                            <span>Jam: {{ court.open_time }} - {{ court.close_time }}</span>
-                        </div>
-                        <a class="btn primary" href="{% url 'booking:create' %}">Booking</a>
+            {% for court in courts %}
+                <div class="card court-card">
+                    {% if court.image %}
+                        <img class="court-image" src="{{ court.image.url }}" alt="{{ court.name }}">
+                    {% else %}
+                        <div class="court-image court-image-placeholder">Belum ada gambar</div>
+                    {% endif %}
+                    <h3>{{ court.name }}</h3>
+                    <p class="muted">{{ court.location }}</p>
+                    <p>{{ court.description|default:"Deskripsi belum tersedia." }}</p>
+                    <div class="meta">
+                        <span>Harga: Rp {{ court.price_per_hour }} / jam</span>
+                        <span>Jam: {{ court.open_time }} - {{ court.close_time }}</span>
                     </div>
-                {% endfor %}
-            </div>
+                    {% if user.is_authenticated and not user.is_staff and not user.is_superuser %}
+                        <a class="btn primary" href="{% url 'booking:create' %}">Booking</a>
+                    {% elif user.is_staff or user.is_superuser %}
+                        <a class="btn ghost" href="{% url 'booking:admin_courts' %}">Kelola Lapangan</a>
+                    {% else %}
+                        <a class="btn primary" href="{% url 'booking:login' %}">Login untuk Booking</a>
+                    {% endif %}
+                </div>
+            {% endfor %}
         {% else %}
             <p>Belum ada lapangan yang tersedia.</p>
         {% endif %}

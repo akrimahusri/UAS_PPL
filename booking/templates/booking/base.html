@@ -8,34 +8,46 @@
     <link rel="stylesheet" href="{% static 'booking/styles.css' %}">
 </head>
 <body>
+    {% block site_header %}
     <header class="site-header">
         <div class="container header-inner">
             <div class="brand">MyCourt</div>
             <nav class="nav">
-                <a href="{% url 'booking:landing' %}">Beranda</a>
-                <a href="{% url 'booking:courts' %}">Lapangan</a>
                 {% if user.is_authenticated %}
-                    <a href="{% url 'booking:create' %}">Booking</a>
-                    <a href="{% url 'booking:my_bookings' %}">Riwayat Pemesanan Saya</a>
-                    <a href="{% url 'booking:logout' %}">Keluar</a>
+                    {% if user.is_staff or user.is_superuser %}
+                        <a href="{% url 'booking:admin_dashboard' %}" class="nav-dashboard-link">Dashboard</a>
+                        <a href="{% url 'booking:admin_bookings' %}">Booking</a>
+                    {% else %}
+                        <a href="{% url 'booking:user_dashboard' %}" class="nav-dashboard-link">Dashboard</a>
+                    {% endif %}
+                    <a href="{% url 'booking:courts' %}">Lapangan</a>
+                    <a href="{% url 'booking:logout' %}">Logout</a>
                 {% else %}
-                    <a href="{% url 'booking:login' %}">Masuk</a>
-                    <a href="{% url 'booking:register' %}">Daftar</a>
+                    <a href="{% url 'booking:landing' %}">Beranda</a>
+                    <a href="{% url 'booking:courts' %}">Lapangan</a>
                 {% endif %}
-                <a href="{% url 'booking:about' %}">Tentang</a>
-                <a href="/admin/">Admin</a>
             </nav>
         </div>
     </header>
+    {% endblock %}
 
     <main class="site-main">
+        {% if messages %}
+            <div class="container messages">
+                {% for message in messages %}
+                    <div class="message {{ message.tags }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
         {% block content %}{% endblock %}
     </main>
 
+    {% block site_footer %}
     <footer class="site-footer">
         <div class="container footer-inner">
             <p>MyCourt &copy; 2026. Sistem booking lapangan badminton.</p>
         </div>
     </footer>
+    {% endblock %}
 </body>
 </html>

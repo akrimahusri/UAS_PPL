@@ -1,11 +1,20 @@
-{% extends 'booking/base.html' %}
+{% extends 'booking/dashboard_shell.html' %}
 
 {% block title %}MyCourt | Sukses{% endblock %}
 
+{% block dashboard_section %}bookings{% endblock %}
+{% block dashboard_eyebrow %}Booking{% endblock %}
+{% block dashboard_heading %}Booking Terkirim{% endblock %}
+{% block dashboard_lead %}Booking kamu sudah tercatat dan bisa dilanjutkan dari dashboard akun.{% endblock %}
+{% block dashboard_top_actions %}
+    <a class="btn primary" href="{% url 'booking:user_dashboard' %}">Kembali ke Dashboard</a>
+    <a class="btn ghost" href="{% url 'booking:my_bookings' %}">Riwayat Pesanan</a>
+{% endblock %}
+
 {% block content %}
-<section class="section">
+<section class="dashboard-page booking-success-page">
     <div class="container narrow">
-        <div class="card">
+        <div class="card booking-success-card">
             <h1>Booking Terkirim</h1>
             <p>Terima kasih, {{ booking.full_name }}. Booking kamu sudah tercatat.</p>
             <div class="meta">
@@ -14,7 +23,7 @@
                 <span>Jam: {{ booking.start_time }} - {{ booking.end_time }}</span>
                 <span>Status: {{ booking.get_status_display }}</span>
             </div>
-            <a class="btn ghost" href="{% url 'booking:landing' %}">Kembali ke Beranda</a>
+            <a class="btn ghost" href="{% url 'booking:user_dashboard' %}">Kembali ke Dashboard</a>
         </div>
     </div>
 </section>

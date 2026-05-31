@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}MyCourt{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'booking/styles.css' %}">
+</head>
+<body class="auth-body">
+    <main class="site-main">
+        {% if messages %}
+            <div class="container messages auth-messages">
+                {% for message in messages %}
+                    <div class="message {{ message.tags }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

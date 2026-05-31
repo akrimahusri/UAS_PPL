@@ -1,13 +1,20 @@
-{% extends 'booking/base.html' %}
+{% extends 'booking/dashboard_shell.html' %}
 
 {% block title %}MyCourt | Booking{% endblock %}
 
+{% block dashboard_section %}bookings{% endblock %}
+{% block dashboard_eyebrow %}Booking{% endblock %}
+{% block dashboard_heading %}Form Booking{% endblock %}
+{% block dashboard_lead %}Booking akan ditautkan ke akun yang sedang login dan kembali ke dashboard setelah tersimpan.{% endblock %}
+{% block dashboard_top_actions %}
+    <a class="btn ghost" href="{% url 'booking:my_bookings' %}">Riwayat Pesanan</a>
+    <a class="btn ghost" href="{% url 'booking:courts' %}">Lapangan</a>
+{% endblock %}
+
 {% block content %}
-<section class="section">
-    <div class="container narrow">
-        <h1>Form Booking</h1>
-        <p class="muted">Booking akan ditautkan ke akun yang sedang login.</p>
-        <form method="post" class="form">
+<section class="dashboard-page booking-form-page">
+    <div class="container narrow dashboard-form-panel">
+        <form method="post" class="form booking-form-card">
             {% csrf_token %}
             {{ form.non_field_errors }}
             <div class="form-grid">

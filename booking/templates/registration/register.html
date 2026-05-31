@@ -1,30 +1,56 @@
-{% extends 'booking/base.html' %}
+{% extends 'registration/auth_base.html' %}
 
 {% block title %}MyCourt | Daftar{% endblock %}
 
 {% block content %}
-<section class="section">
-    <div class="container narrow">
-        <h1>Daftar Akun</h1>
-        <form method="post" class="form">
-            {% csrf_token %}
-            {{ form.non_field_errors }}
-            <div class="form-grid">
-                <label>
-                    Username
-                    {{ form.username }}
-                </label>
-                <label>
-                    Password
-                    {{ form.password1 }}
-                </label>
-                <label>
-                    Konfirmasi Password
-                    {{ form.password2 }}
-                </label>
+<section class="auth-page">
+    <div class="container auth-shell auth-shell-reverse">
+        <div class="auth-visual auth-visual-register">
+            <div class="auth-visual-copy">
+                <p class="auth-badge">MyCourt</p>
+                <h1>Halo! Selamat Datang</h1>
+                <p>Buat akun baru untuk bergabung berasama MyCourt.</p>
             </div>
-            <button class="btn primary" type="submit">Daftar</button>
-        </form>
+        </div>
+
+        <div class="auth-panel">
+            <div class="auth-card">
+                <p class="eyebrow">Daftar</p>
+                <h2>Buat akun MyCourt</h2>
+                <p class="auth-copy">Isi data di bawah untuk membuat akun user baru.</p>
+
+                <form method="post" class="form auth-form">
+                    {% csrf_token %}
+                    {{ form.non_field_errors }}
+                    <div class="form-grid">
+                        <label>
+                            Username
+                            {{ form.username }}
+                            {{ form.username.errors }}
+                        </label>
+                        <label>
+                            Email
+                            {{ form.email }}
+                            {{ form.email.errors }}
+                        </label>
+                        <label>
+                            Password
+                            {{ form.password1 }}
+                            {% if form.password1.help_text %}<small class="field-help">{{ form.password1.help_text|safe }}</small>{% endif %}
+                            {{ form.password1.errors }}
+                        </label>
+                        <label>
+                            Konfirmasi Password
+                            {{ form.password2 }}
+                            {% if form.password2.help_text %}<small class="field-help">{{ form.password2.help_text|safe }}</small>{% endif %}
+                            {{ form.password2.errors }}
+                        </label>
+                    </div>
+
+                    <button class="btn primary auth-submit" type="submit">Daftar</button>
+                </form>
+            </div>
+        </div>
     </div>
 </section>
 {% endblock %}

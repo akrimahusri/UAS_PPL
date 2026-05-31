@@ -1,0 +1,76 @@
+{% extends 'booking/admin_dashboard_base.html' %}
+
+{% block title %}MyCourt | Kelola Booking{% endblock %}
+{% block dashboard_section %}bookings{% endblock %}
+
+{% block dashboard_eyebrow %}Booking{% endblock %}
+{% block dashboard_heading %}Kelola Status Booking{% endblock %}
+{% block dashboard_lead %}Pantau seluruh booking, ubah status dengan cepat, dan tetap jaga alur operasional lapangan di satu halaman.{% endblock %}
+{% block dashboard_top_actions %}
+    <a class="btn ghost" href="{% url 'booking:admin_dashboard' %}">Dashboard Admin</a>
+    <a class="btn primary" href="{% url 'booking:admin_courts' %}">Kelola Lapangan</a>
+{% endblock %}
+
+{% block admin_summary %}
+        <div class="admin-management-metrics">
+            <div class="stat"><div class="stat-value">{{ booking_count }}</div><div class="stat-label">Total Booking</div></div>
+            <div class="stat"><div class="stat-value">{{ pending_count }}</div><div class="stat-label">Pending</div></div>
+            <div class="stat"><div class="stat-value">{{ confirmed_count }}</div><div class="stat-label">Confirmed</div></div>
+            <div class="stat"><div class="stat-value">{{ cancelled_count }}</div><div class="stat-label">Cancelled</div></div>
+        </div>
+{% endblock %}
+
+{% block admin_body %}
+        {% if bookings %}
+            <div class="admin-booking-grid admin-booking-list">
+                {% for booking in bookings %}
+                    <article class="admin-booking-card">
+                        <div class="admin-booking-top">
+                            <div>
+                                <p class="eyebrow">{{ booking.court.name }}</p>
+                                <h2>{{ booking.full_name }}</h2>
+                                <p class="muted">{{ booking.date }} | {{ booking.start_time }} - {{ booking.end_time }}</p>
+                            </div>
+                            <span class="dashboard-pill">{{ booking.get_status_display }}</span>
+                        </div>
+
+                        <div class="admin-booking-meta">
+                            <div>
+                                <span class="admin-booking-label">User</span>
+                                <strong>{{ booking.user.username|default:"-" }}</strong>
+                            </div>
+                            <div>
+                                <span class="admin-booking-label">Kontak</span>
+                                <strong>{{ booking.phone }}</strong>
+                            </div>
+                            <div>
+                                <span class="admin-booking-label">Email</span>
+                                <strong>{{ booking.email }}</strong>
+                            </div>
+                            <div>
+                                <span class="admin-booking-label">Catatan</span>
+                                <strong>{{ booking.notes|default:"-" }}</strong>
+                            </div>
+                        </div>
+
+                        <form method="post" action="{% url 'booking:admin_update_booking_status' booking.id %}" class="admin-booking-form">
+                            {% csrf_token %}
+                            <label>
+                                Ubah status
+                                <select name="status">
+                                    {% for value, label in booking.STATUS_CHOICES %}
+                                        <option value="{{ value }}" {% if booking.status == value %}selected{% endif %}>{{ label }}</option>
+                                    {% endfor %}
+                                </select>
+                            </label>
+                            <button class="btn primary" type="submit">Simpan Status</button>
+                        </form>
+                    </article>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <p>Belum ada booking untuk dikelola.</p>
+            </div>
+        {% endif %}
+{% endblock %}

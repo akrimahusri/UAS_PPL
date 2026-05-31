@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}MyCourt{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'booking/styles.css' %}">
+</head>
+<body class="dashboard-body">
+    <div class="dashboard-shell">
+        <aside class="dashboard-sidebar">
+            <div class="dashboard-sidebar-brand">
+                <div class="brand">MyCourt</div>
+                <p class="dashboard-sidebar-kicker">Sistem Booking Lapangan</p>
+            </div>
+
+            <nav class="dashboard-sidebar-nav">
+                <a class="{% if dashboard_section == 'dashboard' %}is-active{% endif %}" href="{% if user.is_staff or user.is_superuser %}{% url 'booking:admin_dashboard' %}{% else %}{% url 'booking:user_dashboard' %}{% endif %}">Dashboard</a>
+                <a class="{% if dashboard_section == 'courts' %}is-active{% endif %}" href="{% url 'booking:courts' %}">Lapangan</a>
+                {% if user.is_staff or user.is_superuser %}
+                    <a class="{% if dashboard_section == 'bookings' %}is-active{% endif %}" href="{% url 'booking:admin_bookings' %}">Booking</a>
+                    <a class="{% if dashboard_section == 'courts_manage' %}is-active{% endif %}" href="{% url 'booking:admin_courts' %}">Kelola Lapangan</a>
+                    <a class="{% if dashboard_section == 'users_manage' %}is-active{% endif %}" href="{% url 'booking:admin_users' %}">Kelola Akun</a>
+                {% else %}
+                    <a class="{% if dashboard_section == 'bookings' %}is-active{% endif %}" href="{% url 'booking:my_bookings' %}">Riwayat Pesanan</a>
+                    <a class="{% if dashboard_section == 'profile' %}is-active{% endif %}" href="{% url 'booking:profile' %}">Profil</a>
+                {% endif %}
+                <a href="{% url 'booking:logout' %}">Logout</a>
+            </nav>
+        </aside>
+
+        <main class="dashboard-main">
+            {% if messages %}
+                <div class="container messages dashboard-messages">
+                    {% for message in messages %}
+                        <div class="message {{ message.tags }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <header class="dashboard-topbar">
+                <div>
+                    <p class="eyebrow">{% block dashboard_eyebrow %}Dashboard{% endblock %}</p>
+                    <h1>{% block dashboard_heading %}{% endblock %}</h1>
+                    <p class="hero-lead">{% block dashboard_lead %}{% endblock %}</p>
+                </div>
+            </header>
+
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+</body>
+</html>

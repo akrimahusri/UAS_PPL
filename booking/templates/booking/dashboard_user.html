@@ -1,0 +1,88 @@
+{% extends 'booking/dashboard_shell.html' %}
+
+{% block title %}MyCourt | Dashboard User{% endblock %}
+
+{% block dashboard_section %}dashboard{% endblock %}
+{% block dashboard_eyebrow %}Dashboard User{% endblock %}
+{% block dashboard_heading %}Selamat datang, {{ user.username }}{% endblock %}
+{% block dashboard_lead %}Kelola lapangan, riwayat pesanan, dan profil akunmu dari satu tempat.{% endblock %}
+{% block dashboard_top_actions %}
+    <a class="btn primary" href="{% url 'booking:courts' %}">Lapangan</a>
+    <a class="btn ghost" href="{% url 'booking:my_bookings' %}">Riwayat Pesanan</a>
+    <a class="btn ghost" href="#profil">Profil</a>
+{% endblock %}
+
+{% block content %}
+<section class="dashboard-page user-dashboard-page">
+        <div class="dashboard-grid">
+            <div class="dashboard-card dashboard-wide">
+                <div class="section-heading">
+                    <div>
+                        <p class="eyebrow">Lapangan</p>
+                        <h2>Lapangan aktif yang bisa kamu lihat</h2>
+                    </div>
+                    <a class="text-link" href="{% url 'booking:courts' %}">Lihat semua</a>
+                </div>
+                {% if courts %}
+                    <div class="card-grid dashboard-courts">
+                        {% for court in courts %}
+                            <article class="card court-card">
+                                {% if court.image %}
+                                    <img class="court-image" src="{{ court.image.url }}" alt="{{ court.name }}">
+                                {% else %}
+                                    <div class="court-image court-image-placeholder">Belum ada gambar</div>
+                                {% endif %}
+                                <div class="court-card-body">
+                                    <div>
+                                        <h3>{{ court.name }}</h3>
+                                        <p class="muted">{{ court.location }}</p>
+                                    </div>
+                                    <div class="court-meta-row">
+                                        <span>Rp {{ court.price_per_hour }} / jam</span>
+                                        <span>{{ court.open_time }} - {{ court.close_time }}</span>
+                                    </div>
+                                </div>
+                            </article>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p>Belum ada lapangan aktif yang tersedia.</p>
+                {% endif %}
+            </div>
+
+            <div class="dashboard-card" id="profil">
+                <p class="eyebrow">Profil</p>
+                <h2>Informasi akun</h2>
+                <ul class="profile-list">
+                    <li><strong>Username:</strong> {{ user.username }}</li>
+                    <li><strong>Email:</strong> {{ user.email|default:"-" }}</li>
+                    <li><strong>Status:</strong> User aktif</li>
+                    <li><strong>Booking saya:</strong> {{ booking_count }}</li>
+                </ul>
+            </div>
+
+            <div class="dashboard-card">
+                <div class="section-heading">
+                    <div>
+                        <p class="eyebrow">Riwayat</p>
+                        <h2>Pesanan terbaru</h2>
+                    </div>
+                    <a class="text-link" href="{% url 'booking:my_bookings' %}">Semua riwayat</a>
+                </div>
+                {% if bookings %}
+                    <div class="dashboard-list">
+                        {% for booking in bookings %}
+                            <div class="dashboard-item">
+                                <strong>{{ booking.court.name }}</strong>
+                                <p class="muted">{{ booking.date }} | {{ booking.start_time }} - {{ booking.end_time }}</p>
+                                <span class="dashboard-pill">{{ booking.get_status_display }}</span>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p>Belum ada booking yang dibuat.</p>
+                {% endif %}
+            </div>
+        </div>
+</section>
+{% endblock %}

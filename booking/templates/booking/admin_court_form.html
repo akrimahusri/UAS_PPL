@@ -1,0 +1,35 @@
+{% extends 'booking/admin_dashboard_base.html' %}
+
+{% block title %}MyCourt | Ubah Lapangan{% endblock %}
+{% block dashboard_section %}courts_manage{% endblock %}
+
+{% block dashboard_eyebrow %}Lapangan{% endblock %}
+{% block dashboard_heading %}Ubah Lapangan{% endblock %}
+{% block dashboard_lead %}Perbarui detail lapangan tanpa keluar dari dashboard MyCourt.{% endblock %}
+{% block dashboard_top_actions %}
+    <a class="btn ghost" href="{% url 'booking:admin_courts' %}">Kembali ke Kelola Lapangan</a>
+    <a class="btn ghost" href="{% url 'booking:admin_dashboard' %}">Dashboard Admin</a>
+{% endblock %}
+
+{% block admin_body %}
+    <div class="admin-booking-card">
+        <form method="post" enctype="multipart/form-data" class="form admin-edit-form">
+            {% csrf_token %}
+            {{ court_form.non_field_errors }}
+            <div class="admin-court-grid">
+                <label>Nama {{ court_form.name }}</label>
+                <label>Lokasi {{ court_form.location }}</label>
+                <label>Harga per Jam {{ court_form.price_per_hour }}</label>
+                <label>Gambar {{ court_form.image }}</label>
+                <label>Deskripsi {{ court_form.description }}</label>
+                <label>Jam Buka {{ court_form.open_time }}</label>
+                <label>Jam Tutup {{ court_form.close_time }}</label>
+                <label class="admin-court-switch">{{ court_form.is_active }} <span>Aktif</span></label>
+            </div>
+            <div class="hero-actions">
+                <button class="btn primary" type="submit">Simpan Perubahan</button>
+                <a class="btn ghost" href="{% url 'booking:admin_courts' %}">Batal</a>
+            </div>
+        </form>
+    </div>
+{% endblock %}

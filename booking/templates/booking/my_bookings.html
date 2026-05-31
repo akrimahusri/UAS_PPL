@@ -1,28 +1,40 @@
-{% extends 'booking/base.html' %}
+{% extends 'booking/dashboard_shell.html' %}
 
 {% block title %}MyCourt | Riwayat Pemesanan Saya{% endblock %}
 
+{% block dashboard_section %}bookings{% endblock %}
+{% block dashboard_eyebrow %}Riwayat{% endblock %}
+{% block dashboard_heading %}Riwayat Pemesanan Saya{% endblock %}
+{% block dashboard_lead %}Semua booking milik akunmu tersaji di sini, lengkap dengan status dan aksi pembatalan.{% endblock %}
+{% block dashboard_top_actions %}
+    <a class="btn primary" href="{% url 'booking:create' %}">Booking Lagi</a>
+    <a class="btn ghost" href="{% url 'booking:courts' %}">Lapangan</a>
+{% endblock %}
+
 {% block content %}
-<section class="section">
-    <div class="container">
-        <h1>Riwayat Pemesanan Saya</h1>
-        {% if bookings %}
-            <div class="card-grid">
-                {% for booking in bookings %}
-                    <div class="card">
-                        <h3>{{ booking.court.name }}</h3>
-                        <p>{{ booking.full_name }}</p>
-                        <p class="muted">{{ booking.date }} | {{ booking.start_time }} - {{ booking.end_time }}</p>
-                        <div class="meta">
-                            <span>Status: {{ booking.get_status_display }}</span>
-                            <span>Lapangan: {{ booking.court.location }}</span>
-                        </div>
+<section class="dashboard-page bookings-page">
+    {% if bookings %}
+        <div class="card-grid bookings-grid">
+            {% for booking in bookings %}
+                <div class="card booking-card">
+                    <h3>{{ booking.court.name }}</h3>
+                    <p>{{ booking.full_name }}</p>
+                    <p class="muted">{{ booking.date }} | {{ booking.start_time }} - {{ booking.end_time }}</p>
+                    <div class="meta">
+                        <span>Status: {{ booking.get_status_display }}</span>
+                        <span>Lapangan: {{ booking.court.location }}</span>
                     </div>
-                {% endfor %}
-            </div>
-        {% else %}
-            <p>Belum ada booking yang dibuat dari akun ini.</p>
-        {% endif %}
-    </div>
+                    {% if booking.status != 'cancelled' %}
+                        <form method="post" action="{% url 'booking:cancel_booking' booking.id %}">
+                            {% csrf_token %}
+                            <button class="btn ghost" type="submit">Batalkan Pesanan</button>
+                        </form>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>Belum ada booking yang dibuat dari akun ini.</p>
+    {% endif %}
 </section>
 {% endblock %}
